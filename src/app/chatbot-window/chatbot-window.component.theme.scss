@@ -1,0 +1,35 @@
+@import "~@angular/material/theming";
+
+@mixin chatbot-window-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  // your custom component's selector
+  .chat-header,
+  .chat-footer {
+    background-color: mat-color($accent);
+    color: white;
+  }
+
+  .chat-message {
+    color: white;
+
+    &.chat-message-bot {
+      background-color: mat-color($primary, A100);
+
+      &::before {
+        border-color: transparent mat-color($primary, A100) transparent
+          transparent;
+      }
+    }
+
+    &.chat-message-user {
+      background-color: mat-color($primary, A400);
+
+      &::before {
+        border-color: mat-color($primary, A400) transparent transparent
+          transparent;
+      }
+    }
+  }
+}
