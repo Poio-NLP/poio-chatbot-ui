@@ -1,7 +1,7 @@
 <div class="chat-wrapper">
   <div class="chat-closed" *ngIf="!chatOpen">
-    <button mat-fab>
-      <mat-icon aria-hidden="false" aria-label="Open and close the chat window"
+    <button mat-fab (click)="onToggleChatbot()">
+      <mat-icon aria-hidden="false" aria-label="Open the chat window"
         >chat</mat-icon
       >
     </button>
@@ -13,6 +13,7 @@
         <h2>
           Chatbot
           <mat-icon
+            (click)="onToggleChatbot()"
             id="chat-close-button"
             class="float-right"
             aria-hidden="false"
@@ -22,24 +23,29 @@
         </h2>
       </div>
       <div class="chat-content">
-        <div class="chat-message chat-message-bot">
-          Hi! I am a Rasa bot. Ask me anything.
-        </div>
-        <div class="chat-message chat-message-user lighten">
-          What is your purpose in life an everything else?
-        </div>
-        <div class="chat-message chat-message-bot">
-          Hi! I am a Rasa bot. Ask me anything.
+        <div
+          *ngFor="let message of chatMessages"
+          class="chat-message"
+          [ngClass]="
+            message.isBot
+              ? 'chat-message-bot'
+              : ['chat-message-user', 'lighten']
+          "
+        >
+          {{ message.text }}
         </div>
       </div>
     </div>
     <div class="chat-footer">
-      <mat-form-field class="w-80"><input matInput/></mat-form-field>
+      <mat-form-field class="w-80"
+        ><input [formControl]="message" (keyup.enter)="onSendMessage()" matInput
+      /></mat-form-field>
       <mat-icon
         id="chat-send-button"
         class="float-right"
         aria-hidden="false"
         aria-label="Send the message"
+        (click)="onSendMessage()"
         >send</mat-icon
       >
     </div>
